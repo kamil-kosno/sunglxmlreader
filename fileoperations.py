@@ -21,7 +21,7 @@ COMBINED_FILE = "sun_gl_response_failed_records.csv"
 def get_root():
     root = f"{USER_FILES}{session['id']}/"
     if not os.path.exists(root):
-        os.mkdir(root)
+        os.makedirs(root)
     return root
 
 
