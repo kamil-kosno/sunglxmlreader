@@ -1,0 +1,63 @@
+.div-inner{
+  display: inline-block;
+}
+
+.center-content{
+  text-align: center;
+}
+
+.download-form{
+  text-align: center;
+  padding-top: 20px;
+}
+
+.input-hidden{
+  visibility:hidden;
+}
+
+.header {
+  margin-top: 0.5rem;
+  padding:50px;
+  text-align: center;
+  background: #1abc9c;
+  color: white;
+  font-size: 30px;
+}
+
+tr{
+  white-space: nowrap;
+  line-height: 0.7rem;
+}
+
+.th-table-row{
+  font-weight: normal;
+}
+
+.download-button-div{
+  text-align: center;
+}
+
+.failed-records-header{
+  margin: 0.5rem;
+  text-align: center;
+}
+
+.response-upload-params-table-div{
+  margin-top: 1.5rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.response-payload-table-div{
+  margin-left: 10px;
+  margin-right: 10px;
+  overflow-x: scroll;
+}
+
+.img_frame{
+  position: absolute;
+  left: 1rem;
+  top: 5rem;
+  border-radius: 50%;
+}
