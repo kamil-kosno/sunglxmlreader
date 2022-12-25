@@ -2,6 +2,9 @@ import os
 import pandas
 import csv
 from lxml import etree
+from flask import session
+import shutil
+from datetime import datetime
 
 USER_FILES = "./userfiles/"
 HEADER_FILE = "sun_gl_response_header.csv"
@@ -15,8 +18,15 @@ PAYLOAD_FIELDS = ["RowNumber", "AccountCode", "AccountingPeriod", "AnalysisCode1
 COMBINED_FILE = "sun_gl_response_failed_records.csv"
 
 
+def get_root():
+    root = f"{USER_FILES}{session['id']}/"
+    if not os.path.exists(root):
+        os.mkdir(root)
+    return root
+
+
 def get_file_path(filename):
-    return f"{USER_FILES}{filename}"
+    return f"{get_root()}{filename}"
 
 
 def get_header_file_path():
@@ -34,8 +44,17 @@ def get_combined_file_path():
 def clean_temp_folder():
     # clean up user directory
     try:
-        for f in os.listdir(USER_FILES):
-            os.remove(os.path.join(USER_FILES, f))
+        for f in os.scandir(USER_FILES):
+            if f.is_file():
+                os.remove(f.path)
+            else:
+                if f.name == session['id']:
+                    shutil.rmtree(f.path)
+                else:
+                    last_access_time = datetime.fromtimestamp(f.stat().st_atime)
+                    now_time = datetime.now()
+                    if (now_time-last_access_time).total_seconds() > 300:
+                        shutil.rmtree(f.path)
     except Exception as e:
         return f"Failed to clean up file folder. Reason: {e}"
 

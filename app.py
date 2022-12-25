@@ -1,17 +1,23 @@
-from flask import render_template, Flask, request, send_file
+from flask import render_template, Flask, request, send_file, session
 from fileoperations import parse_xml, get_file_path, get_header, get_payload, clean_temp_folder, get_combined_file_path
 import datetime
+import uuid
+
+
+def get_guid():
+    return str(uuid.uuid4())
+
 
 app = Flask(__name__)
+app.secret_key = get_guid()
 
 
 @app.route('/')
 def home():
+    if 'id' not in session:
+        session['id'] = get_guid()
     current_year = datetime.datetime.now().year
     return render_template('index.html', footer_year=current_year)
-
-
-download_file_name = ['']
 
 
 @app.route('/uploader', methods=['GET', 'POST'])
@@ -20,8 +26,8 @@ def upload_file():
         clean_temp_folder()
         f = request.files['sungl_response_file']
         file_path = get_file_path(f.filename)
-        download_file_name[0] = (f.filename + '_rejected.csv')
         f.save(file_path)
+        session['download_file_name'] = (f.filename + '_rejected.csv')
         parse_xml(file_path)
         header_df = get_header()
         payload_df = get_payload()
@@ -36,7 +42,7 @@ def upload_file():
 
 @app.route('/download', methods=['GET'])
 def download():
-    return send_file(get_combined_file_path(), download_name=download_file_name[0])
+    return send_file(get_combined_file_path(), download_name=session['download_file_name'])
 
 
 if __name__ == '__main__':
