@@ -18,12 +18,20 @@ app.secret_key = get_secret()
 
 
 @app.route('/')
-def home():    
+def home():  
+    fo = FileOperations(app.name)
+    fo.get_root()  
     current_year = datetime.datetime.now().year
     return render_template('index.html', footer_year=current_year)
 
+@app.route('/update_log', methods=['GET'])
+def update_log():
+    fo = FileOperations(app.name)  
+    fo.write_log()
+    return 'log written'   
 
-@app.route('/uploader', methods=['GET', 'POST'])
+
+@app.route('/uploader', methods=['POST'])
 def upload_file():
     if request.method == 'POST':
         fo = FileOperations(app.name)

@@ -17,7 +17,7 @@ PAYLOAD_FIELDS = ["RowNumber", "AccountCode", "AccountingPeriod", "AnalysisCode1
                   "CurrencyCode", "DebitCredit", "Description", "JournalType", "TransactionAmount", "TransactionDate",
                   "TransactionReference", "GeneralDescription5", "GeneralDescription6", "TopErrorMessage"]
 COMBINED_FILE = "sun_gl_response_failed_records.csv"
-
+LOG_FILE = 'user_active.log'
 
 class FileOperations:
     def __init__(self, user_session_id):
@@ -31,6 +31,9 @@ class FileOperations:
 
     def get_file_path(self, filename):
         return f"{self.get_root()}{filename}"
+
+    def get_log_file_path(self):
+        return self.get_file_path(LOG_FILE)
 
     def get_header_file_path(self):
         return self.get_file_path(HEADER_FILE)
@@ -51,9 +54,13 @@ class FileOperations:
                     if f.name == self.user_session_id:
                         shutil.rmtree(f.path)
                     else:
-                        last_access_time = datetime.fromtimestamp(f.stat().st_atime)
+                        last_modified_time = datetime.fromtimestamp(f.stat().st_mtime)
+                        for file in os.scandir(f.path):
+                            last_modified = datetime.fromtimestamp(file.stat().st_mtime)
+                            if last_modified > last_modified_time:
+                                last_modified_time = last_modified                        
                         now_time = datetime.now()
-                        if (now_time-last_access_time).total_seconds() > 3600:
+                        if (now_time-last_modified_time).total_seconds() > 300:
                             shutil.rmtree(f.path)
         except Exception as e:
             return f"Failed to clean up file folder. Reason: {e}"
@@ -147,6 +154,11 @@ class FileOperations:
             csvw.writerow([])
             with open(self.get_payload_file_path(), 'r') as fread_payload:
                 fwrite.write(fread_payload.read())
+        return True
+    
+    def write_log(self):
+        with open(self.get_log_file_path(), 'w') as log_writer:
+            log_writer.write(f"last active: {datetime.now()}")
         return True
 
     def get_header(self):
