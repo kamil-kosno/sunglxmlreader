@@ -20,7 +20,7 @@ app.secret_key = get_secret()
 @app.route('/')
 def home():  
     if 'id' not in session:
-        session['id'] = get_guid()
+        session['id'] = get_guid()    
     fo = FileOperations(session['id'])
     fo.get_root()  
     current_year = datetime.datetime.now().year
