@@ -1,6 +1,5 @@
 import os
 
-import flask
 import pandas
 import csv
 from lxml import etree

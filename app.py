@@ -12,14 +12,13 @@ def get_guid():
 def get_secret():
     return secrets.token_hex()
 
-
-app = Flask(__name__)
+#guid is used to create unique subfolder
+app = Flask(get_guid())
 app.secret_key = get_secret()
-app.config['USER_SESSION_ID'] = get_guid()
 
 
 @app.route('/')
-def home():
+def home():    
     current_year = datetime.datetime.now().year
     return render_template('index.html', footer_year=current_year)
 
@@ -27,7 +26,7 @@ def home():
 @app.route('/uploader', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
-        fo = FileOperations(app.config['USER_SESSION_ID'])
+        fo = FileOperations(app.name)
         fo.clean_temp_folder()
         f = request.files['sungl_response_file']
         file_path = fo.get_file_path(f.filename)
@@ -47,7 +46,7 @@ def upload_file():
 
 @app.route('/download', methods=['GET'])
 def download():
-    fo = FileOperations(app.config['USER_SESSION_ID'])
+    fo = FileOperations(app.name)
     return send_file(fo.get_combined_file_path(), download_name=app.config['DOWNLOAD_FILE_PATH'])
 
 
