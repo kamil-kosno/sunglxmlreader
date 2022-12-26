@@ -53,7 +53,7 @@ class FileOperations:
                     else:
                         last_access_time = datetime.fromtimestamp(f.stat().st_atime)
                         now_time = datetime.now()
-                        if (now_time-last_access_time).total_seconds() > 600:
+                        if (now_time-last_access_time).total_seconds() > 3600:
                             shutil.rmtree(f.path)
         except Exception as e:
             return f"Failed to clean up file folder. Reason: {e}"
