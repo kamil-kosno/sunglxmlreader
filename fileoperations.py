@@ -53,7 +53,7 @@ def clean_temp_folder():
                 else:
                     last_access_time = datetime.fromtimestamp(f.stat().st_atime)
                     now_time = datetime.now()
-                    if (now_time-last_access_time).total_seconds() > 300:
+                    if (now_time-last_access_time).total_seconds() > 600:
                         shutil.rmtree(f.path)
     except Exception as e:
         return f"Failed to clean up file folder. Reason: {e}"
@@ -138,7 +138,7 @@ def parse_xml(file_name):
     with open(get_combined_file_path(), 'w', newline='') as fwrite:
         csvw = csv.writer(fwrite, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         with open(get_header_file_path(), 'r') as fread_header:
-            csvr = csv.reader(fread_header,delimiter=',' ,quotechar='"')
+            csvr = csv.reader(fread_header, delimiter=',' , quotechar='"')
             for row in csvr:
                 if csvr.line_num == 1:
                     columns = row

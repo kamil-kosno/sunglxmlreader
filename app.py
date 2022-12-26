@@ -2,14 +2,19 @@ from flask import render_template, Flask, request, send_file, session
 from fileoperations import parse_xml, get_file_path, get_header, get_payload, clean_temp_folder, get_combined_file_path
 import datetime
 import uuid
+import secrets
 
 
 def get_guid():
     return str(uuid.uuid4())
 
 
+def get_secret():
+    return secrets.token_hex()
+
+
 app = Flask(__name__)
-app.secret_key = get_guid()
+app.secret_key = get_secret()
 
 
 @app.route('/')

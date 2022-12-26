@@ -19,21 +19,18 @@
   </div>
 </nav>
        <div class="header">
-       <img src="{{url_for('static',filename='xmltocsv.jfif')}}" class="img_frame">
        <h1>Sun GL response viewer</h1>
        <h3>Quickly display and download rejected ledger entries</h3>
        </div>
 <div class="center-content">
     <div class="div-inner">
     <form action="/uploader" method = "POST" enctype = "multipart/form-data" class="d-flex flex-column download-form">
-    <label for="uploadfile" class="btn btn-success">Select XML response file to upload</label>
+        <img src="{{url_for('static',filename='xmltocsv.jfif')}}" class="img_frame">
+    <label for="uploadfile" class="btn btn-success fw-bold">Select XML response file to upload</label>
     <input type="file" class="input-hidden" id="uploadfile" name = "sungl_response_file" onchange="form.submit()"/>
    </form>
    </div>
    </div>
-<!--   <div class="center-content">-->
-<!--           <img src="{{url_for('static',filename='xmltocsv.jfif')}}" class="img_frame">-->
-<!--       </div>-->
    <footer class="page-footer font-small blue fixed-bottom">
   <div class="footer-copyright text-center py-3">© {{footer_year}} KMK
   </div>
