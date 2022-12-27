@@ -21,8 +21,10 @@
     </ul>
   </div>
 </nav>
-<h3 class="failed-records-header">Records rejected by Sun GL</h3>
-<p class="failed-records-header">{{ filename }}</p>
+<div class="failed-records-header">
+<h3 >Records rejected by Sun GL</h3>
+<p class=>{{ filename }}</p>
+</div>
 <div class="download-button-div">
     <a href="{{ url_for('download',filename='#') }}" Download>
     <button type="submit" class="btn btn-primary">
@@ -37,7 +39,7 @@
 <div class="response-upload-params-table-div-outer">
 <div class="response-upload-params-table-div">
 <table class="table table-bordered table-striped">
-    <thead class="table-dark">
+    <thead>
     <tr>
         <th>Parameter Name</th>
         <th>Parameter Value</th>
@@ -60,7 +62,7 @@
 </div>
 <div class="response-payload-table-div">
     <table class="table table-bordered table-striped">
-  <thead class="table-dark">
+  <thead>
   <tr>
   {% for col_name in payload_df.columns.values %}
     <th>{{ col_name }}</th>
