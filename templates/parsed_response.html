@@ -34,9 +34,9 @@
 </button>
         </a>
     </div>
-
+<div class="response-upload-params-table-div-outer">
 <div class="response-upload-params-table-div">
-<table class="table table-bordered table-striped table-success">
+<table class="table table-bordered table-striped">
     <thead class="table-dark">
     <tr>
         <th>Parameter Name</th>
@@ -47,18 +47,19 @@
     {% for index, row in header_df.iterrows() %}
         {% for col in header_df.columns %}
     <tr>
-    <th>{{ col }}</th>
-       <th class="th-table-row">
+    <td>{{ col }}</td>
+       <td class="th-table-row">
            {{ row[col] }}
-       </th>
+       </td>
        {% endfor %}
-        </tr>
+    </tr>
     {% endfor %}
     </tbody>
 </table>
 </div>
+</div>
 <div class="response-payload-table-div">
-    <table class="table table-bordered table-striped table-success">
+    <table class="table table-bordered table-striped">
   <thead class="table-dark">
   <tr>
   {% for col_name in payload_df.columns.values %}
@@ -70,9 +71,9 @@
     {% for index, row in payload_df.iterrows() %}
     <tr>
         {% for col in payload_df.columns %}
-        <th class="th-table-row">
+        <td class="th-table-row">
            {{ row[col] }}
-        </th>
+        </td>
         {% endfor %}
     </tr>
     {% endfor %}
