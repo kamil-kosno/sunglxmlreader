@@ -144,7 +144,7 @@ class FileOperations:
         with open(self.get_combined_file_path(), 'w', newline='') as fwrite:
             csvw = csv.writer(fwrite, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
             with open(self.get_header_file_path(), 'r') as fread_header:
-                csvr = csv.reader(fread_header, delimiter=',' , quotechar='"')
+                csvr = csv.reader(fread_header, delimiter=',', quotechar='"')
                 for row in csvr:
                     if csvr.line_num == 1:
                         columns = row
@@ -162,7 +162,7 @@ class FileOperations:
         return True
 
     def get_header(self):
-        return pandas.read_csv(self.get_header_file_path(), keep_default_na=False)
+        return pandas.read_csv(self.get_header_file_path(), keep_default_na=False, dtype=str)
 
     def get_payload(self):
-        return pandas.read_csv(self.get_payload_file_path(), keep_default_na=False)
+        return pandas.read_csv(self.get_payload_file_path(), keep_default_na=False, dtype=str)
